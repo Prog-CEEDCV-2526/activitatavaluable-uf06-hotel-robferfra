@@ -162,14 +162,15 @@ public class App {
      * retorna el nom del tipus.
      */
     public static String seleccionarTipusHabitacio() {
-        System.out.println("Sel·leccione un tipus d'habitació:");
-        System.out.println("1: Estàndard");
-        System.out.println("2: Suite");
-        System.out.println("3: Deluxe");
-        int tipusHabitacio = sc.nextInt();
-        sc.nextLine();
+        int tipusHabitacio = -1;
         String nomTipusHabitacio = "";
         do {
+            System.out.println("Sel·leccione un tipus d'habitació:");
+            System.out.println("1: Estàndard");
+            System.out.println("2: Suite");
+            System.out.println("3: Deluxe");
+            tipusHabitacio = sc.nextInt();
+            sc.nextLine();
             switch (tipusHabitacio) {
                 case 1:
                     nomTipusHabitacio = TIPUS_ESTANDARD;
