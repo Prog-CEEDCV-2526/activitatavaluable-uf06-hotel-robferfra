@@ -1,4 +1,5 @@
 package com.hotel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -56,6 +57,7 @@ public class App {
 
         int opcio = 0;
         do {
+            // Imprimeix el menú:
             mostrarMenu();
             opcio = llegirEnter("Seleccione una opció: ");
             gestionarOpcio(opcio);
@@ -103,14 +105,46 @@ public class App {
         System.out.println("3. Consultar disponibilitat");
         System.out.println("4. Llistar reserves per tipus");
         System.out.println("5. Obtindre una reserva");
-        System.out.println("6. Ixir");
+        System.out.println("6. Eixir");
     }
 
     /**
      * Processa l'opció seleccionada per l'usuari i crida el mètode corresponent.
      */
     public static void gestionarOpcio(int opcio) {
-       //TODO:
+        int opcioEscollida = opcio;
+
+        switch (opcioEscollida) {
+            case 1:
+                reservarHabitacio();
+                break;
+
+            case 2:
+                alliberarHabitacio();
+                break;
+
+            case 3:
+                consultarDisponibilitat();
+                break;
+
+            case 4:
+                obtindreReservaPerTipus();
+                break;
+
+            case 5:
+                obtindreReserva();
+                break;
+
+            case 6:
+
+                break;
+
+            default:
+                // En cas de sel·leccionar un número invàlid, imprimeix per pantalla un missatge
+                // d'error i torna al menú.
+                System.out.println("Opció no vàlida.");
+                break;
+        }
     }
 
     /**
@@ -119,8 +153,8 @@ public class App {
      */
     public static void reservarHabitacio() {
         System.out.println("\n===== RESERVAR HABITACIÓ =====");
-        //TODO:
-        
+        seleccionarTipusHabitacio();
+
     }
 
     /**
@@ -128,8 +162,33 @@ public class App {
      * retorna el nom del tipus.
      */
     public static String seleccionarTipusHabitacio() {
-        //TODO:
-        return null;
+        System.out.println("Sel·leccione un tipus d'habitació:");
+        System.out.println("1: Estàndard");
+        System.out.println("2: Suite");
+        System.out.println("3: Deluxe");
+        int tipusHabitacio = sc.nextInt();
+        sc.nextLine();
+        String nomTipusHabitacio = "";
+        do {
+            switch (tipusHabitacio) {
+                case 1:
+                    nomTipusHabitacio = TIPUS_ESTANDARD;
+                    break;
+
+                case 2:
+                    nomTipusHabitacio = TIPUS_SUITE;
+                    break;
+
+                case 3:
+                    nomTipusHabitacio = TIPUS_DELUXE;
+                    break;
+
+                default:
+                    System.out.println("Opció no vàlida.");
+                    break;
+            }
+        } while (tipusHabitacio != 1 || tipusHabitacio != 2 || tipusHabitacio != 3);
+        return nomTipusHabitacio;
     }
 
     /**
@@ -139,7 +198,7 @@ public class App {
      */
     public static String seleccionarTipusHabitacioDisponible() {
         System.out.println("\nTipus d'habitació disponibles:");
-        //TODO:
+        // TODO:
         return null;
     }
 
@@ -148,7 +207,7 @@ public class App {
      * els retorna en un ArrayList de String.
      */
     public static ArrayList<String> seleccionarServeis() {
-        //TODO:
+        // TODO:
 
         return null;
     }
@@ -158,7 +217,7 @@ public class App {
      * els serveis seleccionats i l'IVA.
      */
     public static float calcularPreuTotal(String tipusHabitacio, ArrayList<String> serveisSeleccionats) {
-        //TODO:
+        // TODO:
         return 0;
     }
 
@@ -167,8 +226,11 @@ public class App {
      * (entre 100 i 999) que no estiga repetit.
      */
     public static int generarCodiReserva() {
-        //TODO:
-        return 0;
+        // La funció random genera un codi entre 0 i 899, al qual es suma 100 per a que
+        // el resultat sempre siga igual o major que 0 però menor que 1000. Després,
+        // torna eixe int com a codiReserva.
+        int codiReserva = 100 + random.nextInt(900);
+        return codiReserva;
     }
 
     /**
@@ -177,14 +239,14 @@ public class App {
      */
     public static void alliberarHabitacio() {
         System.out.println("\n===== ALLIBERAR HABITACIÓ =====");
-         // TODO: Demanar codi, tornar habitació i eliminar reserva
+        // TODO: Demanar codi, tornar habitació i eliminar reserva
     }
 
     /**
      * Mostra la disponibilitat actual de les habitacions (lliures i ocupades).
      */
     public static void consultarDisponibilitat() {
-        // TODO: Mostrar lliures i ocupades
+
     }
 
     /**
@@ -192,7 +254,7 @@ public class App {
      * associades a un tipus d'habitació.
      */
     public static void llistarReservesPerTipus(int[] codis, String tipus) {
-         // TODO: Implementar recursivitat
+        // TODO: Implementar recursivitat
     }
 
     /**
@@ -201,7 +263,7 @@ public class App {
     public static void obtindreReserva() {
         System.out.println("\n===== CONSULTAR RESERVA =====");
         // TODO: Mostrar dades d'una reserva concreta
- 
+
     }
 
     /**
@@ -217,7 +279,7 @@ public class App {
      * Consulta i mostra en detall la informació d'una reserva.
      */
     public static void mostrarDadesReserva(int codi) {
-       // TODO: Imprimir tota la informació d'una reserva
+        // TODO: Imprimir tota la informació d'una reserva
     }
 
     // --------- MÈTODES AUXILIARS (PER MILLORAR LEGIBILITAT) ---------
@@ -227,12 +289,18 @@ public class App {
      * errors d'entrada.
      */
     static int llegirEnter(String missatge) {
+        // Reb el text (missatge) que se li passa a la funció ("Seleccione una opció: ")
         int valor = 0;
         boolean correcte = false;
+        // Mentre correcte siga true:
         while (!correcte) {
-                System.out.print(missatge);
-                valor = sc.nextInt();
-                correcte = true;
+            // Imprimeix el text que se li passa a la funció ("Seleccione una opció: "):
+            System.out.print(missatge);
+            // Si l'usuari introdueix un int, el boolean passarà a true i s'enviarà eixe
+            // int.
+            // Al posar .nextInt(), si s'escriu una lletra per exemple, dona error.
+            valor = sc.nextInt();
+            correcte = true;
         }
         return valor;
     }
