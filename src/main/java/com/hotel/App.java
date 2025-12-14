@@ -167,7 +167,8 @@ public class App {
     public static String seleccionarTipusHabitacio() {
         int tipusHabitacio = -1;
         String nomTipusHabitacio = "";
-        do {            
+        do {
+            System.out.println("\nSel·leccione una opció:");
             System.out.println("1: Estàndard");
             System.out.println("2: Suite");
             System.out.println("3: Deluxe");
@@ -201,8 +202,11 @@ public class App {
      */
     public static String seleccionarTipusHabitacioDisponible() {
         System.out.println("\nTipus d'habitació disponibles:");
-        // Aquesta línia es una crida a la funció + assignació del valor retornat al
-        // String habitacioSeleccionada.
+        consultarDisponibilitat();
+        /**
+         * Aquesta línia es una crida a la funció + assignació del valor retornat al
+         * String habitacioSeleccionada.
+         */
         String habitacioSeleccionada = seleccionarTipusHabitacio();
         System.out.println("Ha sel·leccionat " + habitacioSeleccionada);
 
@@ -256,9 +260,12 @@ public class App {
      * Mostra la disponibilitat actual de les habitacions (lliures i ocupades).
      */
     public static void consultarDisponibilitat() {
-        System.out.println("Habitacions disponibles:");
-        for (Map.Entry<String, Integer> valor : disponibilitatHabitacions.entrySet()) {
-            System.out.println(valor.getKey() + ": " + valor.getValue());
+        System.out.println("===== DISPONIBILITAT D'HABITACIONS =====");
+        String tipusHabitacio = "";
+        System.out.println("Tipus" + "\t" + "Lliures" + "\t" + "Ocupades");
+        for (Map.Entry<String, Integer> habitacio : disponibilitatHabitacions.entrySet()) {
+            tipusHabitacio = habitacio.getKey();
+            mostrarDisponibilitatTipus(tipusHabitacio);
         }
     }
 
