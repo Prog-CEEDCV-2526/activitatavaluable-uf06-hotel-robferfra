@@ -2,6 +2,7 @@ package com.hotel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -60,7 +61,9 @@ public class App {
             // Imprimeix el menú:
             mostrarMenu();
             opcio = llegirEnter("Seleccione una opció: ");
+            // El switch està dins de gestionarOpció. Si ix, torna ací.
             gestionarOpcio(opcio);
+            // I torna a preguntar mentre l'usuari no introduïsca un 6.
         } while (opcio != 6);
 
         System.out.println("Eixint del sistema... Gràcies per utilitzar el gestor de reserves!");
@@ -153,7 +156,7 @@ public class App {
      */
     public static void reservarHabitacio() {
         System.out.println("\n===== RESERVAR HABITACIÓ =====");
-        seleccionarTipusHabitacio();
+        seleccionarTipusHabitacioDisponible();
 
     }
 
@@ -164,8 +167,7 @@ public class App {
     public static String seleccionarTipusHabitacio() {
         int tipusHabitacio = -1;
         String nomTipusHabitacio = "";
-        do {
-            System.out.println("Sel·leccione un tipus d'habitació:");
+        do {            
             System.out.println("1: Estàndard");
             System.out.println("2: Suite");
             System.out.println("3: Deluxe");
@@ -188,7 +190,7 @@ public class App {
                     System.out.println("Opció no vàlida.");
                     break;
             }
-        } while (tipusHabitacio != 1 || tipusHabitacio != 2 || tipusHabitacio != 3);
+        } while (tipusHabitacio != 1 && tipusHabitacio != 2 && tipusHabitacio != 3);
         return nomTipusHabitacio;
     }
 
@@ -199,7 +201,14 @@ public class App {
      */
     public static String seleccionarTipusHabitacioDisponible() {
         System.out.println("\nTipus d'habitació disponibles:");
-        // TODO:
+        // Aquesta línia es una crida a la funció + assignació del valor retornat al
+        // String habitacioSeleccionada.
+        String habitacioSeleccionada = seleccionarTipusHabitacio();
+        System.out.println("Ha sel·leccionat " + habitacioSeleccionada);
+
+        // Ara el programa comprova la disponibilitat d'eixa habitació i retorna el
+        // preu.
+
         return null;
     }
 
@@ -247,7 +256,10 @@ public class App {
      * Mostra la disponibilitat actual de les habitacions (lliures i ocupades).
      */
     public static void consultarDisponibilitat() {
-
+        System.out.println("Habitacions disponibles:");
+        for (Map.Entry<String, Integer> valor : disponibilitatHabitacions.entrySet()) {
+            System.out.println(valor.getKey() + ": " + valor.getValue());
+        }
     }
 
     /**
