@@ -155,20 +155,25 @@ public class App {
      * serveis addicionals, càlcul del preu total i generació del codi de reserva.
      */
     public static void reservarHabitacio() {
+        /**
+         * Inicialitza totes les variab les que ha de contindre l'ArrayList de la reserva.
+         */
+        String habitacio = "";        
+        
         System.out.println("\n===== RESERVAR HABITACIÓ =====");
-        seleccionarTipusHabitacioDisponible();
+        habitacio = seleccionarTipusHabitacioDisponible();
 
     }
 
     /**
-     * Pregunta a l'usuari un tipus d'habitació en format numèric i
-     * retorna el nom del tipus.
+     * Pregunta a l'usuari un tipus d'habitació en format numèric i retorna el nom
+     * del tipus.
      */
     public static String seleccionarTipusHabitacio() {
         int tipusHabitacio = -1;
         String nomTipusHabitacio = "";
         do {
-            System.out.println("\nSel·leccione una opció:");
+            System.out.println("\nSel·leccione un tipus d'habitació:");
             System.out.println("1: Estàndard");
             System.out.println("2: Suite");
             System.out.println("3: Deluxe");
@@ -201,19 +206,30 @@ public class App {
      * habitacions disponibles. En cas contrari, retorna null.
      */
     public static String seleccionarTipusHabitacioDisponible() {
-        System.out.println("\nTipus d'habitació disponibles:");
-        consultarDisponibilitat();
+        String habitacio = null;
+        
         /**
-         * Aquesta línia es una crida a la funció + assignació del valor retornat al
-         * String habitacioSeleccionada.
+         * Consulta la disponibilitat (HashMap disponibilitatHabitacions) i el preu (HashMap preusHabitacions) de les habitacions.
+         */
+        System.out.println("\nTipus d'habitació disponibles:");        
+        System.out.println("1. " + TIPUS_ESTANDARD + " - " + disponibilitatHabitacions.get(TIPUS_ESTANDARD) + " disponibles - " + preusHabitacions.get(TIPUS_ESTANDARD));
+        System.out.println("2. " + TIPUS_SUITE + " - " + disponibilitatHabitacions.get(TIPUS_SUITE) + " disponibles - " + preusHabitacions.get(TIPUS_SUITE));
+        System.out.println("3. " + TIPUS_DELUXE + " - " + disponibilitatHabitacions.get(TIPUS_DELUXE) + " disponibles - " + preusHabitacions.get(TIPUS_DELUXE));
+        
+        /**
+         * Aquesta línia es una crida a la funció + assignació del valor retornat al String habitacioSeleccionada.
          */
         String habitacioSeleccionada = seleccionarTipusHabitacio();
-        System.out.println("Ha sel·leccionat " + habitacioSeleccionada);
 
-        // Ara el programa comprova la disponibilitat d'eixa habitació i retorna el
-        // preu.
+        /**
+        * Si l'habitació sel·leccionada està disponible, la funció retorna el String amb eixe valor. Si no, roman com a null.
+        */
+        if ((disponibilitatHabitacions.get(habitacioSeleccionada)) > 0) {
+            System.out.println("Ha sel·leccionat " + habitacioSeleccionada);
+            habitacio = habitacioSeleccionada;
+        }     
 
-        return null;
+        return habitacio;
     }
 
     /**
@@ -240,9 +256,10 @@ public class App {
      * (entre 100 i 999) que no estiga repetit.
      */
     public static int generarCodiReserva() {
-        // La funció random genera un codi entre 0 i 899, al qual es suma 100 per a que
-        // el resultat sempre siga igual o major que 0 però menor que 1000. Després,
-        // torna eixe int com a codiReserva.
+        /**
+         * La funció random genera un codi entre 0 i 899, al qual es suma 100 per a que
+         * menor que 1000. Després, torna eixe int com a codiReserva.
+         */
         int codiReserva = 100 + random.nextInt(900);
         return codiReserva;
     }
