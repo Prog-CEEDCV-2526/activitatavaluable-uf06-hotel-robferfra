@@ -156,13 +156,26 @@ public class App {
      */
     public static void reservarHabitacio() {
         /**
-         * Inicialitza totes les variab les que ha de contindre l'ArrayList de la reserva.
+         * Inicialitza totes les variables que ha de contindre la reserva.
          */
-        String habitacio = "";        
-        
+        String habitacio = "";
+        float preuTotal = 0;
+        ArrayList<String> serveis = new ArrayList<>();
+
+        /**
+         * Pregunta quin tipus d'habitació es dessitja i suma el preu al preu de la reserva.
+         */
         System.out.println("\n===== RESERVAR HABITACIÓ =====");
         habitacio = seleccionarTipusHabitacioDisponible();
-
+        preuTotal = preuTotal + preusHabitacions.get(habitacio);
+        
+        /**
+         * Pregunta si es volen serveis i suma al preu de l'habitació el preu dels serveis si s'han sel·leccionat.
+         */        
+        serveis = seleccionarServeis();        
+        for(String valor : serveis){
+            preuTotal = preuTotal + preusServeis.get(valor);
+        }
     }
 
     /**
@@ -207,27 +220,33 @@ public class App {
      */
     public static String seleccionarTipusHabitacioDisponible() {
         String habitacio = null;
-        
+
         /**
-         * Consulta la disponibilitat (HashMap disponibilitatHabitacions) i el preu (HashMap preusHabitacions) de les habitacions.
+         * Consulta la disponibilitat (HashMap disponibilitatHabitacions) i el preu
+         * (HashMap preusHabitacions) de les habitacions.
          */
-        System.out.println("\nTipus d'habitació disponibles:");        
-        System.out.println("1. " + TIPUS_ESTANDARD + " - " + disponibilitatHabitacions.get(TIPUS_ESTANDARD) + " disponibles - " + preusHabitacions.get(TIPUS_ESTANDARD));
-        System.out.println("2. " + TIPUS_SUITE + " - " + disponibilitatHabitacions.get(TIPUS_SUITE) + " disponibles - " + preusHabitacions.get(TIPUS_SUITE));
-        System.out.println("3. " + TIPUS_DELUXE + " - " + disponibilitatHabitacions.get(TIPUS_DELUXE) + " disponibles - " + preusHabitacions.get(TIPUS_DELUXE));
-        
+        System.out.println("\nTipus d'habitació disponibles:");
+        System.out.println("1. " + TIPUS_ESTANDARD + " - " + disponibilitatHabitacions.get(TIPUS_ESTANDARD)
+                + " disponibles - " + preusHabitacions.get(TIPUS_ESTANDARD));
+        System.out.println("2. " + TIPUS_SUITE + " - " + disponibilitatHabitacions.get(TIPUS_SUITE) + " disponibles - "
+                + preusHabitacions.get(TIPUS_SUITE));
+        System.out.println("3. " + TIPUS_DELUXE + " - " + disponibilitatHabitacions.get(TIPUS_DELUXE)
+                + " disponibles - " + preusHabitacions.get(TIPUS_DELUXE));
+
         /**
-         * Aquesta línia es una crida a la funció + assignació del valor retornat al String habitacioSeleccionada.
+         * Aquesta línia es una crida a la funció + assignació del valor retornat al
+         * String habitacioSeleccionada.
          */
         String habitacioSeleccionada = seleccionarTipusHabitacio();
 
         /**
-        * Si l'habitació sel·leccionada està disponible, la funció retorna el String amb eixe valor. Si no, roman com a null.
-        */
+         * Si l'habitació sel·leccionada està disponible, la funció retorna el String
+         * amb eixe valor. Si no, roman com a null.
+         */
         if ((disponibilitatHabitacions.get(habitacioSeleccionada)) > 0) {
             System.out.println("Ha sel·leccionat " + habitacioSeleccionada);
             habitacio = habitacioSeleccionada;
-        }     
+        }
 
         return habitacio;
     }
@@ -237,9 +256,39 @@ public class App {
      * els retorna en un ArrayList de String.
      */
     public static ArrayList<String> seleccionarServeis() {
-        // TODO:
+        /**
+         * Inicialitza un ArrayList per als possibles serveis sel·leccionats i dos String per a les respostes de si vol afegir un servei i quin servei. */        
+        ArrayList<String> serveisSeleccionats = new ArrayList<>();
+        String respostaAfegir = "";
+        int respostaServei = -1;
 
-        return null;
+        do {
+            System.out.println("Serveis addicionals:");
+            System.out.println("0. Finalitzar");
+            System.out.println("1. Esmorzar (10€)");
+            System.out.println("2. Gimnàs (15€)");
+            System.out.println("3. Spa (20€)");
+            System.out.println("4. Piscina (25€)");
+            
+            System.out.println("Vol afegir un servei? (s/n):");
+            respostaAfegir = sc.nextLine();
+            
+            /**
+             * Comprova que la entrada de l'usuari siga vàlida. Si no, repeteix la pregunta.
+             */
+            if (!respostaAfegir.equalsIgnoreCase("s") && !respostaAfegir.equalsIgnoreCase("n")) {
+                do {
+                    System.out.println("Opció no vàlida.");
+                    System.out.println("Vol afegir un servei? (s/n):");
+            respostaAfegir = sc.nextLine();
+                } while (!respostaAfegir.equalsIgnoreCase("s") && !respostaAfegir.equalsIgnoreCase("n"));
+            } else if (respostaAfegir.equalsIgnoreCase("n")) {
+                serveisSeleccionats = null;
+            }
+            
+        } while (respostaServei != 0);
+
+        return serveisSeleccionats;
     }
 
     /**
