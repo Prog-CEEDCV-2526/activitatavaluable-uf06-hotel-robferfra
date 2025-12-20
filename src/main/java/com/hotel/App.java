@@ -106,8 +106,8 @@ public class App {
         System.out.println("1. Reservar una habitació");
         System.out.println("2. Alliberar una habitació");
         System.out.println("3. Consultar disponibilitat");
-        System.out.println("4. Llistar reserves per tipus");
-        System.out.println("5. Obtindre una reserva");
+        System.out.println("4. Consultar dades d'una reserva");
+        System.out.println("5. Consultar reserves per tipus");
         System.out.println("6. Eixir");
     }
 
@@ -131,11 +131,11 @@ public class App {
                 break;
 
             case 4:
-                obtindreReservaPerTipus();
+                obtindreReserva();
                 break;
 
             case 5:
-                obtindreReserva();
+                obtindreReservaPerTipus();
                 break;
 
             case 6:
@@ -463,7 +463,8 @@ public class App {
         sc.nextLine();
 
         /**
-         * Si la reserva existeix, actualitza la disponibilitat d'eixe tipus d'habitació i elimina la reserva.
+         * Si la reserva existeix, actualitza la disponibilitat d'eixe tipus d'habitació
+         * i elimina la reserva.
          */
 
         if (!reserves.get(codi).isEmpty()) {
@@ -471,7 +472,7 @@ public class App {
 
             ArrayList<String> dadesReserva = reserves.get(codi);
             String habitacio = dadesReserva.get(0);
-            
+
             Integer novaDisponibilitat = (disponibilitatHabitacions.get(habitacio) + 1);
             disponibilitatHabitacions.put(habitacio, novaDisponibilitat);
 
@@ -509,8 +510,30 @@ public class App {
      */
     public static void obtindreReserva() {
         System.out.println("\n===== CONSULTAR RESERVA =====");
-        // TODO: Mostrar dades d'una reserva concreta
 
+        int codi = -1;
+        boolean codiValid = false;
+        /**
+         * Demana el codi de la reserva i comprova que siga un enter de tres xifres. Si
+         * és correcte, s'envia a la funció mostrarDadesReserva. Si no, torna a demanar
+         * un codi.
+         */
+        while (codiValid == false) {
+            System.out.println("Introdueix el codi de reserva:");
+            if (sc.hasNextInt()) {
+                codi = sc.nextInt();
+                if (codi > 99 && codi < 1000) {
+                    codiValid = true;
+                } else {
+                    System.out.println("Codi no vàlid. Per favor, introduïsca un codi numèric de tres xifres.");
+                }
+            } else {
+                System.out.println("Codi no vàlid. Per favor, introduïsca un codi numèric de tres xifres.");
+                sc.next();
+            }
+        }
+        sc.nextLine();
+        mostrarDadesReserva(codi);
     }
 
     /**
@@ -526,7 +549,32 @@ public class App {
      * Consulta i mostra en detall la informació d'una reserva.
      */
     public static void mostrarDadesReserva(int codi) {
-        // TODO: Imprimir tota la informació d'una reserva
+
+        /**
+         * Consulta el HashMap reserves i mostra la informació si existeix una reserva
+         * amb eixe codi. Si no, mostra un missatge d'error.
+         */
+        if (reserves.containsKey(codi)) {
+            ArrayList<String> dadesReserva = new ArrayList<>();
+            dadesReserva = reserves.get(codi);
+
+            System.out.println("Dades de la reserva:");
+            System.out.println(" -Tipus d'habitació: " + dadesReserva.get(0));
+            System.out.println(" -Cost total: " + dadesReserva.get(1) + "€");
+            /**
+             * Comprova si l'ArrayList de la reserva conté més de dos posicions. En cas
+             * afirmatiu vol dir que la reserva inclou serveis addicionals i recorre les
+             * seues posicions mostrant-los.
+             */
+            if (dadesReserva.size() > 2) {
+                System.out.println("Serveis addicionals:");
+                for (int i = 2; i < dadesReserva.size(); i++) {
+                    System.out.println(" -" + dadesReserva.get(i));
+                }
+            }
+        } else {
+            System.out.println("No s'ha trobat cap reserva amb aquest codi.");
+        }
     }
 
     // --------- MÈTODES AUXILIARS (PER MILLORAR LEGIBILITAT) ---------
