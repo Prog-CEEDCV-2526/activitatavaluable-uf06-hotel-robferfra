@@ -502,7 +502,27 @@ public class App {
      * associades a un tipus d'habitació.
      */
     public static void llistarReservesPerTipus(int[] codis, String tipus) {
-        // TODO: Implementar recursivitat
+        
+        if (codis.length == 0) {
+            System.out.println("No hi ha més codis.");
+        } else {
+            if (reserves.get(codis[0]).contains(tipus)) {
+                System.out.println("Codi: " + codis[0]);
+                mostrarDadesReserva(codis[0]);
+
+                int newCodis[] = new int[codis.length-1];
+
+                System.arraycopy(codis, 1, newCodis, 0, newCodis.length);
+
+                llistarReservesPerTipus(newCodis, tipus);
+            } else {
+                int newCodis[] = new int[codis.length-1];
+
+                System.arraycopy(codis, 1, newCodis, 0, newCodis.length);
+                
+                llistarReservesPerTipus(newCodis, tipus);
+            }
+        }
     }
 
     /**
@@ -542,71 +562,39 @@ public class App {
      */
     public static void obtindreReservaPerTipus() {
         System.out.println("\n===== CONSULTAR RESERVES PER TIPUS =====");
-        int resposta = -1;
-        boolean opcioValida = false;
         String respostaHab = "";
 
         /**
-         * Demana un tipus d'habitació i comprova que l'entrada és vàlida.
+         * Crida a la funció seleccionarTipusHabitacio per a demanar i validar el tipus
+         * d'habitació i l'emmagatzema a l'String respostaHab.
          */
-        do {
-            System.out.println("Sel·leccione tipus:");
-            System.out.println(" 1.Estàndard");
-            System.out.println(" 2.Suite");
-            System.out.println(" 3.Deluxe");
-            if (sc.hasNextInt()) {
-                resposta = sc.nextInt();
-                sc.nextLine();
-                if (resposta > 0 && resposta < 4) {
-                    opcioValida = true;
-                } else {
-                    System.out.println("Opció no vàlida.");
-                }
-            } else {
-                System.out.println("Opció no vàlida.");
-                sc.next();
-            }
-        } while (resposta != 1 && resposta != 2 && resposta != 3);
+
+        respostaHab = seleccionarTipusHabitacio();
 
         /**
-         * Estableix el String respostaHab amb el tipus d'habitació que s'ha
-         * sel·leccionat.
+         * Crea un ArrayList amb tots els codis de les reserves.
          */
-        if (resposta == 1) {
-            respostaHab = TIPUS_ESTANDARD;
-        } else if (resposta == 2) {
-            respostaHab = TIPUS_SUITE;
-        } else {
-            respostaHab = TIPUS_DELUXE;
-        }
 
-        /**
-         * Busca al HashMap reserves aquelles que tinguen eixe tipus d'habitació a la
-         * primera posició del seu ArrayList i guarda el seu codi a un ArrayList.
-         */
-        ArrayList<Integer> codisTipusHab = new ArrayList<>();
-
+        ArrayList<Integer> codisHab = new ArrayList<>();
         for (Map.Entry<Integer, ArrayList<String>> valor : reserves.entrySet()) {
-            ArrayList<String> dadesReserva = valor.getValue();
-            if (dadesReserva.get(0) == respostaHab) {
-                codisTipusHab.add(valor.getKey());
-            }
+            codisHab.add(valor.getKey());
         }
 
         /**
          * Converteix l'ArrayList codisTipusHab en un vector ordinari per a poder
          * passar-lo a la funció llistarReservesPerTipus.
          */
-        int codisTipus[] = new int[codisTipusHab.size()];
-        for (int i = 0; i < codisTipus.length; i++) {
-            codisTipus[i] = codisTipusHab.get(i);
+        int codis[] = new int[codisHab.size()];
+        for (int i = 0; i < codis.length; i++) {
+            codis[i] = codisHab.get(i);
         }
 
         /**
          * Crida a la funció llistarReservesPerTipus amb el vector de codis de reserva i
          * el tipus d'habitació.
          */
-        llistarReservesPerTipus(codisTipus, respostaHab);
+        System.out.println("Reserves del tipus: " + respostaHab);
+        llistarReservesPerTipus(codis, respostaHab);
 
     }
 
