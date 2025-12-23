@@ -139,8 +139,7 @@ public class App {
                 break;
 
             case 6:
-                System.out.println("Eixint del sistema...");
-                System.out.println("Gràcies per utilitzar el gestor de reserves!");
+                
                 break;
 
             default:
