@@ -139,7 +139,8 @@ public class App {
                 break;
 
             case 6:
-
+                System.out.println("Eixint del sistema...");
+                System.out.println("Gràcies per utilitzar el gestor de reserves!");
                 break;
 
             default:
@@ -502,7 +503,7 @@ public class App {
      * associades a un tipus d'habitació.
      */
     public static void llistarReservesPerTipus(int[] codis, String tipus) {
-        
+
         if (codis.length == 0) {
             System.out.println("No hi ha més codis.");
         } else {
@@ -510,16 +511,16 @@ public class App {
                 System.out.println("Codi: " + codis[0]);
                 mostrarDadesReserva(codis[0]);
 
-                int newCodis[] = new int[codis.length-1];
+                int newCodis[] = new int[codis.length - 1];
 
                 System.arraycopy(codis, 1, newCodis, 0, newCodis.length);
 
                 llistarReservesPerTipus(newCodis, tipus);
             } else {
-                int newCodis[] = new int[codis.length-1];
+                int newCodis[] = new int[codis.length - 1];
 
                 System.arraycopy(codis, 1, newCodis, 0, newCodis.length);
-                
+
                 llistarReservesPerTipus(newCodis, tipus);
             }
         }
