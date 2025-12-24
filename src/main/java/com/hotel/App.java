@@ -139,7 +139,7 @@ public class App {
                 break;
 
             case 6:
-                
+
                 break;
 
             default:
@@ -457,10 +457,26 @@ public class App {
         System.out.println("\n===== ALLIBERAR HABITACIÓ =====");
 
         int codi = -1;
+        boolean codiValid = true;
 
-        System.out.println("Introdueix el codi de la reserva: ");
-        codi = sc.nextInt();
-        sc.nextLine();
+        /**
+         * Comprova que el codi introduït tinga el format correcte. Si no, torna a
+         * demanar-ho.
+         */
+        while (codiValid == false) {
+            System.out.println("Introdueix el codi de reserva:");
+            if (sc.hasNextInt()) {
+                codi = sc.nextInt();
+                if (codi > 99 && codi < 1000) {
+                    codiValid = true;
+                } else {
+                    System.out.println("Codi no vàlid. Per favor, introduïsca un codi numèric de tres xifres.");
+                }
+            } else {
+                System.out.println("Codi no vàlid. Per favor, introduïsca un codi numèric de tres xifres.");
+                sc.next();
+            }
+        }
 
         /**
          * Si la reserva existeix, actualitza la disponibilitat d'eixe tipus d'habitació
